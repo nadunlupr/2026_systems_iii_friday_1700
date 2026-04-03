@@ -7,32 +7,43 @@ import { Link } from 'react-router';
 
 function App() {
   const initialState = {
-    searchText: ''
+    searchText: '',
+    selectedId: undefined
   }
   const [state, setState] = useState(initialState)
 
   const groupList = [
-    { name: "Saquaro", desc: "bo o woa" },
-    { name: "Best Group", desc: "Not the best" },
-    { name: "Stupid Group", desc: "Not the stupidest" },
-    { name: "Psycho Group", desc: "ohh I don't know" },
-    { name: "Normal Group", desc: "well no issues" }
+    { id: 1, name: "Saquaro", desc: "bo o woa" },
+    { id: 2, name: "Best Group", desc: "Not the best" },
+    { id: 3, name: "Stupid Group", desc: "Not the stupidest" },
+    { id: 4, name: "Psycho Group", desc: "ohh I don't know" },
+    { id: 5, name: "Normal Group", desc: "well no issues" }
   ];
 
   return (
     <>
       <Link to="/counter">Go to counter</Link>
+      <br/>
+      <Link to="/use-effect-demo">Go to UseEffect Demo</Link>
+      <br/>
       <input type='text' onChange={({ target: { value: searchText } }) => setState({
         ...state,
         searchText
       })} />
       {
-        groupList.map(({ name, desc }) => {
-          return name.includes(state.searchText) ?
-            <GroupCard grpName={name} dsc={desc} /> :
-            undefined;
+        groupList.map(({id, name, desc }) => {
+          // return name.includes(state.searchText) ?
+          //   <GroupCard grpName={name} dsc={desc} /> :
+          //   undefined;
 
-          // return name.includes(state.searchText) && <GroupCard grpName={name} dsc={desc} />
+          return name.includes(state.searchText) &&
+            <GroupCard
+              key={id}
+              grpName={name} 
+              dsc={desc}
+              isSelected={state.selectedId === id}
+              id={id}
+              onGroupCardClick={(id) => setState({...state, selectedId: id})} />
 
         })
       }
