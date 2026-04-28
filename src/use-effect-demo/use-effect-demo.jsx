@@ -40,7 +40,24 @@ export default function UseEffectDemo(props) {
         callPizzaPromise();
         console.log('after calling the promise');
 
-    }, [state.numberOfClicks])
+    }, [state.numberOfClicks]);
+
+    const handleClick = () => {
+        setState({
+            ...state,
+            numberOfClicks: state.numberOfClicks + 1
+        });
+
+        console.log('Count without prevState: ', state.numberOfClicks);
+
+        setState((prevState) => {
+            console.log('Count with prevState ', prevState.numberOfClicks);
+            return {
+                ...state,
+                numberOfClicks: prevState.numberOfClicks
+            }
+        });
+    }
 
 
     console.log('renderinggg...');
@@ -50,10 +67,7 @@ export default function UseEffectDemo(props) {
             <div>
                 <hr />
                 <h1>Dependency simulation in useEffect</h1>
-                <button onClick={() => setState({
-                    ...state,
-                    numberOfClicks: state.numberOfClicks + 1
-                })} >ClickMe</button>
+                <button onClick={() => handleClick()} >ClickMe</button>
                 {state.numberOfClicks}
                 <hr />
             </div>

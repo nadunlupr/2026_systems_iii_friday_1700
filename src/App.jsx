@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import GroupCard from './groups/group-card'
 import { Link } from 'react-router';
+import TopLayout from './nav-bar/TopLayout'
+import UserProvider from './context-providers/UserProvider'
 
 function App() {
   const initialState = {
@@ -20,18 +22,27 @@ function App() {
     { id: 5, name: "Normal Group", desc: "well no issues" }
   ];
 
+  const user = {
+    username: 'Martha'
+  }
+
   return (
     <>
+      <UserProvider user={user} >
+        <TopLayout />
+        {/* <MoreComponents/> */}
+      </UserProvider>
+
       <Link to="/counter">Go to counter</Link>
-      <br/>
+      <br />
       <Link to="/use-effect-demo">Go to UseEffect Demo</Link>
-      <br/>
+      <br />
       <input type='text' onChange={({ target: { value: searchText } }) => setState({
         ...state,
         searchText
       })} />
       {
-        groupList.map(({id, name, desc }) => {
+        groupList.map(({ id, name, desc }) => {
           // return name.includes(state.searchText) ?
           //   <GroupCard grpName={name} dsc={desc} /> :
           //   undefined;
@@ -39,11 +50,11 @@ function App() {
           return name.includes(state.searchText) &&
             <GroupCard
               key={id}
-              grpName={name} 
+              grpName={name}
               dsc={desc}
               isSelected={state.selectedId === id}
               id={id}
-              onGroupCardClick={(id) => setState({...state, selectedId: id})} />
+              onGroupCardClick={(id) => setState({ ...state, selectedId: id })} />
 
         })
       }
